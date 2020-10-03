@@ -6,6 +6,7 @@ public class Accelemeter : MonoBehaviour
 {
     public bool isFlat = true;
     private Rigidbody rigid;
+    
     private void Start()
     {
         rigid = GetComponent<Rigidbody>();
@@ -16,6 +17,7 @@ public class Accelemeter : MonoBehaviour
         Vector3 tilt = Input.acceleration;
         if (isFlat)
         {
+            
             tilt = Quaternion.Euler(90, 0, 0) * tilt;
         }
         rigid.AddForce(tilt);
