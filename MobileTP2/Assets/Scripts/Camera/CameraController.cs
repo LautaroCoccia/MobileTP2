@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.transform.position + cameraPos;
+        transform.Translate(Vector3.forward * Time.deltaTime * 10);
+        //transform.position = player.transform.position + cameraPos ;
     }
 }
