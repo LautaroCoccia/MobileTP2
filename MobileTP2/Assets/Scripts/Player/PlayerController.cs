@@ -14,13 +14,25 @@ public class PlayerController : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         canJump = true;
     }
-
-    // Update is called once per frame
     void Update()
-    {   
-        transform.Translate(Input.acceleration.x * Time.deltaTime * horizontalSpeed, 0, 0);
+    {
+        if(transform.position.y <= -2 )
+        {
+            transform.position = new Vector3(0, 0, 0);
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+    }
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (Input.acceleration.x > 0 ||Input.acceleration.x < 0 )
+        {
+            playerRigidbody.AddForce(Input.acceleration.x * horizontalSpeed, 0, 0);
+        }
+
         transform.Translate(Vector3.forward * Time.deltaTime * velocity);
         ManageJump();
+        
     }
 
     void ManageJump()
@@ -28,10 +40,10 @@ public class PlayerController : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch PlayerTouch = Input.GetTouch(0);
-            if (PlayerTouch.phase == TouchPhase.Began && canJump && transform.position.y <= 0)
+            if ( PlayerTouch.phase == TouchPhase.Began && canJump && transform.position.y <= 0)
             {
+                playerRigidbody.AddForce(new Vector3(0, 40, 0), ForceMode.Impulse);
                 canJump = false;
-                transform.Translate(Vector3.up);
             }
             else if (PlayerTouch.phase == TouchPhase.Ended && !canJump)
             {
