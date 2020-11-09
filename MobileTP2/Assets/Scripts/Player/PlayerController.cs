@@ -6,11 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody playerRigidbody;
     private bool canJump;
-    public float velocity;
+    public float speed;
     public float horizontalSpeed;
+    float acceleration;
     // Start is called before the first frame update
     void Start()
     {
+        acceleration = 0;
         playerRigidbody = GetComponent<Rigidbody>();
         canJump = true;
     }
@@ -21,16 +23,15 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(0, 0, 0);
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
+
+        if(acceleration < speed)
+        {
+            acceleration += speed / 5 * Time.deltaTime;
+        }
     }
-    // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.acceleration.x > 0 ||Input.acceleration.x < 0 )
-        {
-            playerRigidbody.AddForce(Input.acceleration.x * horizontalSpeed, 0, 0);
-        }
-
-        transform.Translate(Vector3.forward * Time.deltaTime * velocity);
+        PlayerMovement();
         ManageJump();
         
     }
@@ -42,13 +43,20 @@ public class PlayerController : MonoBehaviour
             Touch PlayerTouch = Input.GetTouch(0);
             if ( PlayerTouch.phase == TouchPhase.Began && canJump && transform.position.y <= 0)
             {
-                playerRigidbody.AddForce(new Vector3(0, 40, 0), ForceMode.Impulse);
+                playerRigidbody.AddForce(new Vector3(0, 50, 0), ForceMode.Impulse);
                 canJump = false;
             }
             else if (PlayerTouch.phase == TouchPhase.Ended && !canJump)
             {
                 canJump = true;
             }
+        }
+    }
+    void PlayerMovement()
+    {
+        if (Input.acceleration.x > 0 || Input.acceleration.x < 0 )
+        {
+            playerRigidbody.AddForce(Input.acceleration.x * horizontalSpeed, 0, acceleration);
         }
     }
 }

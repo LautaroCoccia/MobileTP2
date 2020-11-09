@@ -1,0 +1,3 @@
+include ':LCLogger'
+include ':app'
+rootProject.name = "LCTools"
