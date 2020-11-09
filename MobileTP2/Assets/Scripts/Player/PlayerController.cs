@@ -38,25 +38,33 @@ public class PlayerController : MonoBehaviour
 
     void ManageJump()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && canJump)
         {
             Touch PlayerTouch = Input.GetTouch(0);
             if ( PlayerTouch.phase == TouchPhase.Began && canJump && transform.position.y <= 0)
             {
-                playerRigidbody.AddForce(new Vector3(0, 50, 0), ForceMode.Impulse);
                 canJump = false;
-            }
-            else if (PlayerTouch.phase == TouchPhase.Ended && !canJump)
-            {
-                canJump = true;
+                playerRigidbody.AddForce(new Vector3(0, 50, 0), ForceMode.Impulse);
+                
             }
         }
     }
     void PlayerMovement()
     {
-        if (Input.acceleration.x > 0 || Input.acceleration.x < 0 )
+        if(Input.acceleration.x == 0)
+        {
+            playerRigidbody.AddForce(0, 0, acceleration);
+        }
+        else if (Input.acceleration.x > 0 || Input.acceleration.x < 0 )
         {
             playerRigidbody.AddForce(Input.acceleration.x * horizontalSpeed, 0, acceleration);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.tag == "Ground")
+        {
+            canJump = true;
         }
     }
 }
