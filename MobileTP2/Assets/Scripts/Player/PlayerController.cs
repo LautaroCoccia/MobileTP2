@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Camera playerCamera;
     Rigidbody playerRigidbody;
     private bool canJump;
     public float speed;
     public float horizontalSpeed;
     float acceleration;
+    const float CameraPosX = 0f;
+    const float CameraPosY = -1.74f;
+    const float CameraPosZ = -4.42f;
+    int lives;
+    public bool gameOver = false;
+
+
+    const int MaxLives = 3;
     // Start is called before the first frame update
     void Start()
     {
+        RestartCamPos();
+        gameOver = false;
+        Time.timeScale = 1f;
+        lives = MaxLives;
         acceleration = 0;
         playerRigidbody = GetComponent<Rigidbody>();
         canJump = true;
@@ -20,6 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         if(transform.position.y <= -2 )
         {
+            lives--;
             transform.position = new Vector3(0, 0, 0);
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
@@ -27,6 +41,11 @@ public class PlayerController : MonoBehaviour
         if(acceleration < speed)
         {
             acceleration += speed / 5 * Time.deltaTime;
+        }
+        if(lives <0)
+        {
+            gameOver = true;
+            Time.timeScale = 0f;
         }
     }
     void FixedUpdate()
@@ -66,5 +85,19 @@ public class PlayerController : MonoBehaviour
         {
             canJump = true;
         }
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        lives = MaxLives;
+        acceleration = 0;
+        canJump = true;
+        RestartCamPos();
+    }
+
+    public void RestartCamPos()
+    {
+        playerCamera.transform.position = new Vector3(CameraPosX, CameraPosY, CameraPosZ);
     }
 }
