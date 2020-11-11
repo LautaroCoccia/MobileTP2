@@ -1834,7 +1834,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1803157722}
+      - m_Target: {fileID: 1803157721}
         m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
@@ -4130,5 +4130,6 @@ PrefabInstance:
       propertyPath: outputText
       value: 
       objectReference: {fileID: 1969207242}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5634363020075528140, guid: ff916a0435f4fa44ca7d8bf9808c5abc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ff916a0435f4fa44ca7d8bf9808c5abc, type: 3}

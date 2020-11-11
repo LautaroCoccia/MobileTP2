@@ -24,14 +24,7 @@ public class MainMenu : MonoBehaviour
         string msj = "¿Permitir que TITULO DEL JUEGO acceda archivos de tu dispositivo?";
         logger.ShowAlertWindow(msj);
     }
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-
-        Application.Quit();
-    }
+    
 
 
 }

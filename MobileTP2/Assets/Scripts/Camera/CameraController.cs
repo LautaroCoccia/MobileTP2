@@ -12,3 +12,4 @@ public class CameraController : MonoBehaviour
         transform.LookAt(player);
     }
 }
+ 
