@@ -10,20 +10,19 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float speed;
     public float horizontalSpeed;
-    public bool gameOver = false;
-    float acceleration = 0;
     int lives;
-    
+    LevelManager lvlManager;
+
     const float CameraPosX = 0f;
     const float CameraPosY = 1.74f;
     const float CameraPosZ = -4.42f;
-
     const int MaxLives = 3;
-    // Start is called before the first frame update
+    const int MinLives = 1;
+
     void Start()
     {
-        RestartCamPos();
-        gameOver = false;
+        lvlManager = FindObjectOfType<LevelManager>();
+        SetCamPos();
         Time.timeScale = 1f;
         lives = MaxLives;
         playerRigidbody = GetComponent<Rigidbody>();
@@ -35,13 +34,10 @@ public class PlayerController : MonoBehaviour
         {
             Fall();
         }
-        if(lives <0)
+        if(lives < MinLives)
         {
-            gameOver = true;
-            Time.timeScale = 0f;
+            lvlManager.Lose();
         }
-       
-
     }
     void FixedUpdate()
     {
@@ -101,55 +97,54 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PlayerMovement(float x)
+    {
+        playerRigidbody.AddForce(x * Time.deltaTime, 0, speed * Time.deltaTime);
+    }
+    private void Jump()
+    {
+
+        canJump = false;
+        playerRigidbody.AddForce(new Vector3(0, jumpForce * Time.deltaTime, 0), ForceMode.Impulse);
+    }
+
+    private void Fall()
+    {
+        lives--;
+        SetCamPos();
+        transform.position = new Vector3(0, 0, 0);
+        transform.rotation = new Quaternion(0, 0, 0, 0);
+    }
+    private void SetCamPos()
+    {
+        playerCamera.transform.position = new Vector3(CameraPosX, CameraPosY, CameraPosZ);
+    }
+    public void SetCanJump(bool CanJump)
+    {
+        canJump = CanJump;
+    }
+    public void RestartPlayer()
+    {
+        SetCamPos();
+        Time.timeScale = 1f;
+        lives = MaxLives;
+        canJump = true;
+        transform.position = new Vector3(0, 0, 0);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Ground")
         {
             canJump = true;
         }
-        if (collision.transform.tag == "Checker")
-        {
-            Fall();
-        }
         if (collision.transform.tag == "FinishLine")
         {
-            Time.timeScale = 0;
+            lvlManager.Win();
         }
     }
-    public void Restart()
-    {
-        RestartCamPos();
-        Time.timeScale = 1f;
-        lives = MaxLives;
-        canJump = true;
-        transform.position = new Vector3(0, 0, 0);
-    }
-    private void RestartCamPos()
-    {
-        playerCamera.transform.position = new Vector3(CameraPosX, CameraPosY, CameraPosZ);
-    }
-    public bool GetGameOver()
-    {
-        return gameOver;
-    }
-    private void Jump()
-    {
-        
-        canJump = false;
-        playerRigidbody.AddForce(new Vector3(0, jumpForce * Time.deltaTime , 0), ForceMode.Impulse);
-    }
 
-    private void Fall()
-    {
-        lives--;
-        RestartCamPos();
-        transform.position = new Vector3(0, 0, 0);
-        transform.rotation = new Quaternion(0, 0, 0, 0);
-    }
 
-    private void PlayerMovement(float x)
-    {
-        playerRigidbody.AddForce(x * Time.deltaTime, 0, speed * Time.deltaTime);
-    }
-    
+
+
 }

@@ -5,63 +5,80 @@ using UnityEngine.Analytics;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject Backgrpund;
+    public GameObject Background;
     public GameObject PauseMenu;
     public GameObject QuitOption;
     public GameObject QutToMenu;
     public GameObject RestartOption;
-    public GameObject Player;
     public GameObject GameOverScreen;
     public GameObject FinishScreen;
-    private static bool pause = false;
 
     
+   
+    enum GameState
+    {
+        Play,
+        Pause,
+        Win,
+        Lose
+    }
+    GameState gameState = GameState.Play;
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && (gameState != GameState.Lose || gameState != GameState.Win))
         {
-            if (pause)
+            if (gameState == GameState.Pause)
             {
                 Resume();
             }
-            else 
+            else if(gameState == GameState.Play)
             {
                 Pause();
             }
+        }
+        else if(gameState == GameState.Lose)
+        {
+            Lose();
+        }
+        else if(gameState == GameState.Win)
+        {
+            Win();
         }
        
     }
     public void Resume()
     {
-        Backgrpund.SetActive(false);
+        gameState = GameState.Play;
+        Background.SetActive(false);
         PauseMenu.SetActive(false);
         QuitOption.SetActive(false);
         QutToMenu.SetActive(false);
         RestartOption.SetActive(false);
         Time.timeScale = 1f;
-        pause = false;
     }
     public void Pause()
     {
-        Backgrpund.SetActive(true);
+        gameState = GameState.Pause;
+        Background.SetActive(true);
         PauseMenu.SetActive(true);
         Time.timeScale = 0f;
-        pause = true;
     }
-    private void OnCollisionEnter(Collision collision)
+
+    public void Win()
     {
-        if (collision.transform.tag == "Ground")
-        {
-             
-        }
-        if (collision.transform.tag == "Checker")
-        {
-        }
-        if (collision.transform.tag == "FinishLine")
-        {
-            Time.timeScale = 0;
-        }
+        Background.SetActive(true);
+        PauseMenu.SetActive(false);
+        FinishScreen.SetActive(true);
+        Time.timeScale = 0;
     }
-    
+    public void Lose()
+    {
+        Background.SetActive(true);
+        PauseMenu.SetActive(false);
+        GameOverScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+   
 
 }
