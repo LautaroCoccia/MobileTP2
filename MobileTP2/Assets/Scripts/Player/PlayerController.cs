@@ -7,15 +7,16 @@ public class PlayerController : MonoBehaviour
     public Camera playerCamera;
     Rigidbody playerRigidbody;
     private bool canJump;
+    public float jumpForce;
     public float speed;
     public float horizontalSpeed;
-    float acceleration;
+    public bool gameOver = false;
+    float acceleration = 0;
+    int lives;
+    
     const float CameraPosX = 0f;
     const float CameraPosY = 1.74f;
     const float CameraPosZ = -4.42f;
-    int lives;
-    public bool gameOver = false;
-
 
     const int MaxLives = 3;
     // Start is called before the first frame update
@@ -25,30 +26,26 @@ public class PlayerController : MonoBehaviour
         gameOver = false;
         Time.timeScale = 1f;
         lives = MaxLives;
-        acceleration = 0;
         playerRigidbody = GetComponent<Rigidbody>();
         canJump = true;
     }
     void Update()
     {
-        if(transform.position.y <= -0.75f )
+        if (transform.position.y <= -0.75f )
         {
             Fall();
-        }
-
-        if(acceleration < speed)
-        {
-            acceleration += speed / 2.5f * Time.deltaTime;
         }
         if(lives <0)
         {
             gameOver = true;
             Time.timeScale = 0f;
         }
+       
 
     }
     void FixedUpdate()
     {
+        playerRigidbody.AddForce(0, 0, speed * Time.deltaTime);
 #if UNITY_EDITOR
         PlayerMovementEditor();
         ManageJumpEditor();
@@ -62,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private void ManageJumpAndroid()
     {
+        
         if (Input.touchCount > 0 && canJump)
         {
             Touch PlayerTouch = Input.GetTouch(0);
@@ -75,11 +73,11 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.acceleration.x == 0)
         {
-            playerRigidbody.AddForce(0, 0, acceleration);
+            PlayerMovement(0);
         }
         else if (Input.acceleration.x > 0 || Input.acceleration.x < 0 )
         {
-            playerRigidbody.AddForce(Input.acceleration.x * horizontalSpeed * 20, 0, acceleration);
+            PlayerMovement(Input.acceleration.x * 20 * horizontalSpeed);
         }
     }
     private void ManageJumpEditor()
@@ -92,17 +90,14 @@ public class PlayerController : MonoBehaviour
     private void PlayerMovementEditor()
     {
 
-        if(Input.GetKey("right") )
+        if (Input.GetKey("right") || (Input.GetKey("left")))
         {
-            playerRigidbody.AddForce( Input.GetAxis("Horizontal") * horizontalSpeed * 7.5f, 0, acceleration);
+            PlayerMovement(Input.GetAxis("Horizontal") * horizontalSpeed * 7.5f );
         }
-        else if (Input.GetKey("left"))
-        {
-            playerRigidbody.AddForce(Input.GetAxis("Horizontal") * horizontalSpeed * 7.5f, 0, acceleration);
-        }
+        
         else
         {
-            playerRigidbody.AddForce(0, 0, acceleration );
+            PlayerMovement(0);
         }
     }
 
@@ -123,14 +118,13 @@ public class PlayerController : MonoBehaviour
     }
     public void Restart()
     {
+        RestartCamPos();
         Time.timeScale = 1f;
         lives = MaxLives;
-        acceleration = 0;
         canJump = true;
         transform.position = new Vector3(0, 0, 0);
-        RestartCamPos();
     }
-    public void RestartCamPos()
+    private void RestartCamPos()
     {
         playerCamera.transform.position = new Vector3(CameraPosX, CameraPosY, CameraPosZ);
     }
@@ -142,13 +136,20 @@ public class PlayerController : MonoBehaviour
     {
         
         canJump = false;
-        playerRigidbody.AddForce(new Vector3(0,200 , 0), ForceMode.Impulse);
+        playerRigidbody.AddForce(new Vector3(0, jumpForce * Time.deltaTime , 0), ForceMode.Impulse);
     }
 
     private void Fall()
     {
         lives--;
+        RestartCamPos();
         transform.position = new Vector3(0, 0, 0);
         transform.rotation = new Quaternion(0, 0, 0, 0);
     }
+
+    private void PlayerMovement(float x)
+    {
+        playerRigidbody.AddForce(x * Time.deltaTime, 0, speed * Time.deltaTime);
+    }
+    
 }
