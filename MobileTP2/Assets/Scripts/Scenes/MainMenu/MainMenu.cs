@@ -5,7 +5,7 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI outputText= null;
+    [SerializeField] TextMeshProUGUI outputText;
     SuperLogger logger = null;
     private void Start()
     {
