@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6016414450460108284}
   - component: {fileID: 6016414450460108162}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,6 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
+  jumpForce: 0
   speed: 250
   horizontalSpeed: 100
-  gameOver: 0

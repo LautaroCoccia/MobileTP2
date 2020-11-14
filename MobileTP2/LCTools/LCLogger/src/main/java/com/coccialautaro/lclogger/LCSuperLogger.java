@@ -12,7 +12,6 @@ public class LCSuperLogger {
     private static final String LOGTAG = "LCSuperLogger";
     private static final String GAMETAG = "TPNro2";
 
-    //FILE CODE
     private static final String FILE_NAME = "log.txt";
 
     private static LCSuperLogger _instance =null;

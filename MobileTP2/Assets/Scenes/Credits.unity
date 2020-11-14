@@ -258,6 +258,16 @@ PrefabInstance:
       propertyPath: horizontalSpeed
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6016414450460108162, guid: d1040d75d846ef64f817e93ddf588082,
+        type: 3}
+      propertyPath: jumpForce
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6016414450460108162, guid: d1040d75d846ef64f817e93ddf588082,
+        type: 3}
+      propertyPath: speed
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 6016414450460108285, guid: d1040d75d846ef64f817e93ddf588082,
         type: 3}
       propertyPath: m_Name
@@ -342,7 +352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128301880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.42, z: -10}
+  m_LocalPosition: {x: 0, y: 1.42, z: -4.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -362,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1248027643}
   smoothSpeed: 0.125
-  offset: {x: 0, y: 1.5, z: -1.96}
+  offset: {x: 0, y: 1.5, z: -2}
 --- !u!4 &1248027643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6016414450460108160, guid: d1040d75d846ef64f817e93ddf588082,
@@ -394,7 +404,7 @@ PrefabInstance:
     - target: {fileID: 6026119637958839135, guid: 1ed6e20a7174ec541a4ef3a6f16c561b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 42.3
+      value: 134.4
       objectReference: {fileID: 0}
     - target: {fileID: 6026119637958839135, guid: 1ed6e20a7174ec541a4ef3a6f16c561b,
         type: 3}
@@ -435,6 +445,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026119637958839135, guid: 1ed6e20a7174ec541a4ef3a6f16c561b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 275.436
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ed6e20a7174ec541a4ef3a6f16c561b, type: 3}
