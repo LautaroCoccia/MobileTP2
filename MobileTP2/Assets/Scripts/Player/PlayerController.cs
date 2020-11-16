@@ -142,6 +142,10 @@ public class PlayerController : MonoBehaviour
         {
             lvlManager.Win();
         }
+        if (collision.transform.tag == "Checker")
+        {
+            Fall();
+        }
     }
 
 

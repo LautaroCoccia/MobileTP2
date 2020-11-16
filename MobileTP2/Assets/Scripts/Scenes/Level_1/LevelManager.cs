@@ -52,7 +52,6 @@ public class LevelManager : MonoBehaviour
         gameState = GameState.Play;
         Background.SetActive(false);
         PauseMenu.SetActive(false);
-        QuitOption.SetActive(false);
         QutToMenu.SetActive(false);
         RestartOption.SetActive(false);
         Time.timeScale = 1f;
