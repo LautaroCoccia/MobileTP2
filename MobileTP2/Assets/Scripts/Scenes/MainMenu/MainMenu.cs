@@ -12,17 +12,13 @@ public class MainMenu : MonoBehaviour
         logger = SuperLogger.GetNewInstance();
     }
 
-    public void TutorialBtn()
-    {
-        logger.SendLog(Time.time.ToString());
-
-        outputText.text = logger.GetAllLogs();
-    }
 
     public void LogPermission()
     {
-        string msj = "¿Permitir que TITULO DEL JUEGO acceda archivos de tu dispositivo?";
+        string msj = "¿Permitir que Ball Rush acceda archivos de tu dispositivo?";
         logger.ShowAlertWindow(msj);
+        logger.ExisteArchivo();
+        logger.AsignarDatos("deja de tocarme");
     }
     
 

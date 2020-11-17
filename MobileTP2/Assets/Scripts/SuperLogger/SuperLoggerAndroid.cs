@@ -35,17 +35,7 @@ public class SuperLoggerAndroid : SuperLogger
         }
     }
 
-    public override void SendLog(string msj)
-    {
-        PluginInstance.Call("existearchivo", path);
-        PluginInstance.Call("sendLog", msj);
-    }
-    public override string GetAllLogs()
-    {
-        
-        
-        return PluginInstance.Call<string>("getAllLogs");
-    }
+   
 
     public override void ShowAlertWindow(string msg)
     {
@@ -59,6 +49,21 @@ public class SuperLoggerAndroid : SuperLogger
             }
         }
         Debug.Log("SuperLoggerPopUp.string msg(" + msg + ")");
+
+    }
+    public override void ExisteArchivo()
+    {
+        PluginInstance.Call("existearchivo", path);
+    }
+    public override void AsignarDatos(string msg)
+    {
+        PluginInstance.Call("asignardatos", msg);
+    }
+
+    public override void MostrarArchivos()
+    {
+        PluginInstance.Call("mostrararchivos", path);
+
     }
 }
 

@@ -1,6 +1,5 @@
 package com.coccialautaro.lclogger;
 
-import android.app.Activity;
 import android.util.Log;
 
 
@@ -10,13 +9,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LCSuperLogger {
     Scanner entrada;
     String user;
-    float posX;
+    public static boolean setPermi = false;
     private static final LCSuperLogger ourInstance = new LCSuperLogger();
     private static final String LOGTAG = "SuperLogger";
     private static final String GAMETAG = "TPNro2";
@@ -34,55 +32,63 @@ public class LCSuperLogger {
         return _instance;
     }
     public void existearchivo(String Mypath){
-        ficherodeposito = new File(Mypath + MyFile);
-        try{
-            if (ficherodeposito.exists()) {
-                Log.d(LOGTAG,"ya existe");
-                Log.i("Try: ", "YA EXISTO");
-            }
-            else{
+        if(setPermi){
+            ficherodeposito = new File(Mypath + MyFile);
+            try{
+                if (ficherodeposito.exists()) {
+                    Log.d(LOGTAG,"ya existe");
+                    Log.i("Try: ", "YA EXISTO");
+                }
+                else{
 
-                ficherodeposito.createNewFile();
-                Log.d(LOGTAG,"creado");
-                Log.d(LOGTAG,Mypath);
-                Log.i("Try: ", "NO EXISTO");
+                    ficherodeposito.createNewFile();
+                    Log.d(LOGTAG,"creado");
+                    Log.d(LOGTAG,Mypath);
+                    Log.i("Try: ", "NO EXISTO");
+                }
             }
-        }
-        catch(Exception ex)
-        {
-            Log.e(ex.getMessage(),"Error");
+            catch(Exception ex)
+            {
+                Log.e(ex.getMessage(),"Error");
+            }
         }
 
     }
 
-    public void asignardatos(String name, float dato){
-        user = name;
-        posX = dato;
-        try{
-            BufferedWriter Fescribe=new BufferedWriter( new OutputStreamWriter(new FileOutputStream(ficherodeposito,true)));
-            Fescribe.write(name+"   "+ dato + "     " );
-            Fescribe.write("\n");
-            Log.d(name,"posX " + dato);
-            Fescribe.close();
+    public void asignardatos(String name){
+        if(setPermi){
+            user = name;
+            try{
+                BufferedWriter Fescribe=new BufferedWriter( new OutputStreamWriter(new FileOutputStream(ficherodeposito,true)));
+                Fescribe.write(name);
+                Fescribe.write("\n");
+                Fescribe.close();
+            }
+            catch(Exception ex) {
+                Log.e("ERROR: ",ex.getMessage());
+            }
         }
-        catch(Exception ex) {
-            Log.e("ERROR: ",ex.getMessage());
-        }
+
     }
     public void mostrararchivos(String Mypath){
-        try{
-            FileReader fr= new FileReader(Mypath + MyFile);
-            BufferedReader br= new BufferedReader(fr);
-            String cadena;
-            while((cadena=br.readLine())!=null){
-                Log.d("", cadena);
+        if(setPermi) {
+
+            try{
+                FileReader fr= new FileReader(Mypath + MyFile);
+                BufferedReader br= new BufferedReader(fr);
+                String cadena;
+                while((cadena=br.readLine())!=null){
+                    Log.d("", cadena);
+                    String algo = cadena + "\n";
+                }
+            }
+            catch(Exception ex){
+                Log.e("ERROR: ",ex.getMessage());
             }
         }
-        catch(Exception ex){
-            Log.e("ERROR: ",ex.getMessage());
-        }
+
     }
-    public String buscarregistro(String name)
+    public void buscarregistro(String name)
     {
         String usuario = name;
         try{
@@ -91,7 +97,6 @@ public class LCSuperLogger {
             while((linea=read.readLine())!= null){
                 if(linea.indexOf(usuario)!=-1){
                     Log.d("se encontro el regis: ", linea);
-                    String algo = linea
                 }
             }
         }
@@ -120,15 +125,5 @@ public class LCSuperLogger {
     }
 
 
-    private static final String SEPARATOR = "\n";
-    public String getAllLogs()
-    {
-        String logs = "";
-        for (int i = 0; i< allLogs.size(); i++)
-        {
-            logs += allLogs.get(i) + SEPARATOR;
-        }
-        return logs;
-    }
 
 }

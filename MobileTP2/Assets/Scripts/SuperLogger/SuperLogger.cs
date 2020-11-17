@@ -12,8 +12,9 @@ public abstract class SuperLogger
         return new SuperLoggerAndroid();
 #endif
     }
+    public abstract void ExisteArchivo();
+    public abstract void AsignarDatos(string msg);
 
-    public abstract void SendLog(string msj);
-    public abstract string GetAllLogs();
+    public abstract void MostrarArchivos();
     public abstract void ShowAlertWindow(string msg);
 }

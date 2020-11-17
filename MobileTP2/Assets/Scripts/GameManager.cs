@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
+    SuperLogger logger = SuperLogger.GetNewInstance();
     public static GameManager _instanceGameManager;
 
     private void Awake()
     {
-        if(_instanceGameManager == null)
+        
+        
+        if (_instanceGameManager == null)
         {
             _instanceGameManager = this;
         }
@@ -28,6 +30,10 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator Scene(string name)
     {
+        string msj = "¿Permitir que Ball Rush acceda archivos de tu dispositivo?";
+        logger.ShowAlertWindow(msj);
+        logger.ExisteArchivo();
+        logger.AsignarDatos("cargando Escena " + name);
         SceneManager.LoadSceneAsync(name);
         yield return new WaitForSecondsRealtime(1f);
     }
