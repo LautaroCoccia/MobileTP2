@@ -18,37 +18,33 @@ public class LCSuperLogger {
     String user;
     float posX;
     private static final LCSuperLogger ourInstance = new LCSuperLogger();
-    public static Activity MainActivity;
     private static final String LOGTAG = "SuperLogger";
     private static final String GAMETAG = "TPNro2";
-
-    File ficherodeposito = new File ("deposito.txt");
-    String path =ficherodeposito.getAbsolutePath().toString();
-
-    //FILE CODE
-    private static final String FILE_NAME = "log.txt";
-
+    private static final String MyFile = "Logs.txt";
+    File ficherodeposito;
     private static LCSuperLogger _instance =null;
     public static LCSuperLogger getInstance()
     {
         if(_instance ==null)
         {
+
             Log.d(LOGTAG, "SuperLogger created");
             _instance = new LCSuperLogger();
         }
         return _instance;
     }
-
-    public void existearchivo(){
+    public void existearchivo(String Mypath){
+        ficherodeposito = new File(Mypath + MyFile);
         try{
             if (ficherodeposito.exists()) {
                 Log.d(LOGTAG,"ya existe");
                 Log.i("Try: ", "YA EXISTO");
             }
             else{
+
                 ficherodeposito.createNewFile();
                 Log.d(LOGTAG,"creado");
-                Log.d(LOGTAG,path);
+                Log.d(LOGTAG,Mypath);
                 Log.i("Try: ", "NO EXISTO");
             }
         }
@@ -73,9 +69,9 @@ public class LCSuperLogger {
             Log.e("ERROR: ",ex.getMessage());
         }
     }
-    public void mostrararchivos(){
+    public void mostrararchivos(String Mypath){
         try{
-            FileReader fr= new FileReader("deposito.txt");
+            FileReader fr= new FileReader(Mypath + MyFile);
             BufferedReader br= new BufferedReader(fr);
             String cadena;
             while((cadena=br.readLine())!=null){
@@ -86,7 +82,7 @@ public class LCSuperLogger {
             Log.e("ERROR: ",ex.getMessage());
         }
     }
-    public void buscarregistro(String name)
+    public String buscarregistro(String name)
     {
         String usuario = name;
         try{
@@ -95,6 +91,7 @@ public class LCSuperLogger {
             while((linea=read.readLine())!= null){
                 if(linea.indexOf(usuario)!=-1){
                     Log.d("se encontro el regis: ", linea);
+                    String algo = linea
                 }
             }
         }
@@ -122,14 +119,7 @@ public class LCSuperLogger {
         }
     }
 
-    private ArrayList<String> allLogs = new ArrayList<String>();
 
-    public void sendLog(String msj)
-    {
-        Log.d(GAMETAG, msj);
-        allLogs.add(msj);
-
-    }
     private static final String SEPARATOR = "\n";
     public String getAllLogs()
     {

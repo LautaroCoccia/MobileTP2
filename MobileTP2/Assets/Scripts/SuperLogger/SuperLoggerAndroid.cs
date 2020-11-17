@@ -8,8 +8,11 @@ public class SuperLoggerAndroid : SuperLogger
     static AndroidJavaClass _pluginClass = null;
     static AndroidJavaObject _pluginInstance = null;
 
+    static string path = Application.persistentDataPath;
+   
+
     public static AndroidJavaClass PluginClass
-    {
+    { 
         get
         {
             if (_pluginClass == null)
@@ -34,10 +37,13 @@ public class SuperLoggerAndroid : SuperLogger
 
     public override void SendLog(string msj)
     {
+        PluginInstance.Call("existearchivo", path);
         PluginInstance.Call("sendLog", msj);
     }
     public override string GetAllLogs()
     {
+        
+        
         return PluginInstance.Call<string>("getAllLogs");
     }
 
