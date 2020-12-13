@@ -9346,6 +9346,11 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 4000
       objectReference: {fileID: 0}
+    - target: {fileID: 6016414450460108162, guid: d1040d75d846ef64f817e93ddf588082,
+        type: 3}
+      propertyPath: lvlManager
+      value: 
+      objectReference: {fileID: 148117093}
     - target: {fileID: 6016414450460108284, guid: d1040d75d846ef64f817e93ddf588082,
         type: 3}
       propertyPath: m_Mass
