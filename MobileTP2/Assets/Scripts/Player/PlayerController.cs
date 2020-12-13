@@ -11,17 +11,20 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float horizontalSpeed;
     int lives;
-    LevelManager lvlManager;
+    public LevelManager lvlManager;
 
     const float CameraPosX = 0f;
     const float CameraPosY = 1.74f;
     const float CameraPosZ = -4.42f;
     const int MaxLives = 3;
     const int MinLives = 1;
+    const float MaxFall = -0.75f;
 
+    //ESTA HECHO ASI A PROPOSITO 
+    const float ExponentialSpeedEditor = 7.5f;
+    const float ExponentialSpeedAndroid = 20.0f;
     void Start()
     {
-        lvlManager = FindObjectOfType<LevelManager>();
         SetCamPos();
         Time.timeScale = 1f;
         lives = MaxLives;
@@ -30,7 +33,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if (transform.position.y <= -0.75f )
+        if (transform.position.y <= MaxFall)
         {
             Fall();
         }
@@ -73,7 +76,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.acceleration.x > 0 || Input.acceleration.x < 0 )
         {
-            PlayerMovement(Input.acceleration.x * 20 * horizontalSpeed);
+            //ESTA HECHO ASI A PROPOSITO
+            PlayerMovement(Input.acceleration.x * ExponentialSpeedAndroid * horizontalSpeed);
         }
     }
     private void ManageJumpEditor()
@@ -88,7 +92,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey("right") || (Input.GetKey("left")))
         {
-            PlayerMovement(Input.GetAxis("Horizontal") * horizontalSpeed * 7.5f );
+            //ESTA HECHO ASI A PROPOSITO
+            PlayerMovement(Input.GetAxis("Horizontal") * horizontalSpeed * ExponentialSpeedEditor);
         }
         
         else
@@ -112,7 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         lives--;
         SetCamPos();
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = Vector3.zero;
         transform.rotation = new Quaternion(0, 0, 0, 0);
     }
     private void SetCamPos()
@@ -129,7 +134,7 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1f;
         lives = MaxLives;
         canJump = true;
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = Vector3.zero;
     }
 
     private void OnCollisionEnter(Collision collision)

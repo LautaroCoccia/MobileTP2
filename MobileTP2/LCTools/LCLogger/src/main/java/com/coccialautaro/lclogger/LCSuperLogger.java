@@ -14,11 +14,12 @@ import java.util.Scanner;
 public class LCSuperLogger {
     Scanner entrada;
     String user;
-    public static boolean setPermi = false;
+
     private static final LCSuperLogger ourInstance = new LCSuperLogger();
     private static final String LOGTAG = "SuperLogger";
     private static final String GAMETAG = "TPNro2";
     private static final String MyFile = "Logs.txt";
+    public static boolean setPermi = false;
     File ficherodeposito;
     private static LCSuperLogger _instance =null;
     public static LCSuperLogger getInstance()
@@ -31,21 +32,14 @@ public class LCSuperLogger {
         }
         return _instance;
     }
-    public void existearchivo(String Mypath){
+    public void existearchivo(String Mypath, String algo){
         if(setPermi){
             ficherodeposito = new File(Mypath + MyFile);
             try{
-                if (ficherodeposito.exists()) {
-                    Log.d(LOGTAG,"ya existe");
-                    Log.i("Try: ", "YA EXISTO");
-                }
-                else{
-
+                if (!ficherodeposito.exists()) {
                     ficherodeposito.createNewFile();
-                    Log.d(LOGTAG,"creado");
-                    Log.d(LOGTAG,Mypath);
-                    Log.i("Try: ", "NO EXISTO");
                 }
+                asignardatos(algo);
             }
             catch(Exception ex)
             {
@@ -57,7 +51,6 @@ public class LCSuperLogger {
 
     public void asignardatos(String name){
         if(setPermi){
-            user = name;
             try{
                 BufferedWriter Fescribe=new BufferedWriter( new OutputStreamWriter(new FileOutputStream(ficherodeposito,true)));
                 Fescribe.write(name);
@@ -103,6 +96,7 @@ public class LCSuperLogger {
         catch (Exception  ex){
             Log.e("ERROR: ", ex.getMessage());
         }
+
     }
     public void saldoderegistro(String name){
         user = name;

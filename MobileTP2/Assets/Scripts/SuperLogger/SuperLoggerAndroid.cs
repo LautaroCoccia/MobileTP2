@@ -9,7 +9,6 @@ public class SuperLoggerAndroid : SuperLogger
     static AndroidJavaObject _pluginInstance = null;
 
     static string path = Application.persistentDataPath;
-   
 
     public static AndroidJavaClass PluginClass
     { 
@@ -22,7 +21,6 @@ public class SuperLoggerAndroid : SuperLogger
             return _pluginClass;
         }
     }
-
     public AndroidJavaObject PluginInstance
     {
         get
@@ -35,7 +33,20 @@ public class SuperLoggerAndroid : SuperLogger
         }
     }
 
-   
+    public override void ExisteArchivo()
+    {
+        PluginInstance.Call("existearchivo", path);
+    }
+    public override void AsignarDatos(string msg)
+    {
+        PluginInstance.Call("asignardatos", msg);
+    }
+
+    public override void MostrarArchivos()
+    {
+        PluginInstance.Call("mostrararchivos", path);
+
+    }
 
     public override void ShowAlertWindow(string msg)
     {
@@ -51,19 +62,6 @@ public class SuperLoggerAndroid : SuperLogger
         Debug.Log("SuperLoggerPopUp.string msg(" + msg + ")");
 
     }
-    public override void ExisteArchivo()
-    {
-        PluginInstance.Call("existearchivo", path);
-    }
-    public override void AsignarDatos(string msg)
-    {
-        PluginInstance.Call("asignardatos", msg);
-    }
-
-    public override void MostrarArchivos()
-    {
-        PluginInstance.Call("mostrararchivos", path);
-
-    }
+    
 }
 
